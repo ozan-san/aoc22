@@ -21,12 +21,7 @@ fun main() {
                 if (candidates.any { candidateElement -> candidateElement < element }) {
                     candidates.add(element)
                     candidates.sort()
-
-                    if (candidates.size > 3) {
-                        candidates.drop(1).toMutableList()
-                    } else {
-                        candidates
-                    }
+                    candidates.drop(1).toMutableList()
                 } else candidates
             }
     }

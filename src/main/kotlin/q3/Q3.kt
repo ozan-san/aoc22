@@ -6,17 +6,9 @@ fun main() {
     val f = File("src/main/kotlin/q3/q3.txt").inputStream().bufferedReader().readText()
 
     val s = f.split('\n').sumOf {
-        val firstCompartment = it.substring(0, it.length / 2)
-        val secondCompartment = it.substring(it.length / 2, it.length)
-        val firstElems = mutableSetOf<Char>()
-        val secondElems = mutableSetOf<Char>()
-        firstCompartment.forEach { c ->
-            firstElems.add(c)
-        }
-        secondCompartment.forEach { c ->
-            secondElems.add(c)
-        }
-        val common = firstElems.intersect(secondElems).first()
+        val firstCompartment = it.substring(0, it.length / 2).toCharArray().toSet()
+        val secondCompartment = it.substring(it.length / 2, it.length).toCharArray().toSet()
+        val common = firstCompartment.intersect(secondCompartment).first()
         if (common.isUpperCase()) {
             (common - 'A') + 27
         } else {
