@@ -5,13 +5,24 @@ import q2.Outcome.*
 import java.io.File
 
 enum class Move(
-    val oppMoveSymbol: String,
-    val playerMoveSymbol: String,
     val playerMoveValue: Int
 ) {
-    ROCK("A", "X", 1),
-    PAPER("B", "Y", 2),
-    SCISSORS("C", "Z", 3)
+    ROCK(1),
+    PAPER(2),
+    SCISSORS(3)
+}
+
+fun getMove(oppMoveSymbol: String): Move = when (oppMoveSymbol) {
+    "A",
+    "X" -> ROCK
+
+    "B",
+    "Y" -> PAPER
+
+    "C",
+    "Z" -> SCISSORS
+
+    else -> throw IllegalArgumentException("nah")
 }
 
 enum class Outcome(
@@ -60,11 +71,13 @@ internal fun getStrategisedMove(oppMove: Move, outcome: Outcome): RoundStatus {
             DRAW -> RoundStatus(ROCK, outcome)
             LOSE -> RoundStatus(SCISSORS, outcome)
         }
+
         PAPER -> when (outcome) {
             WIN -> RoundStatus(SCISSORS, outcome)
             DRAW -> RoundStatus(PAPER, outcome)
             LOSE -> RoundStatus(ROCK, outcome)
         }
+
         SCISSORS -> when (outcome) {
             WIN -> RoundStatus(ROCK, outcome)
             DRAW -> RoundStatus(SCISSORS, outcome)
@@ -73,14 +86,14 @@ internal fun getStrategisedMove(oppMove: Move, outcome: Outcome): RoundStatus {
     }
 }
 
-fun main(args: Array<String>) {
+fun main() {
     val f = File("src/main/kotlin/q2/q2.txt").inputStream().bufferedReader().readText()
 
     // region Q1
     val rounds = f.split('\n').map { line ->
         val moves = line.split(' ')
-        val oppMove = Move.values().first { it.oppMoveSymbol == moves[0] }
-        val playerMove = Move.values().first { it.playerMoveSymbol == moves[1] }
+        val oppMove = getMove(moves[0])
+        val playerMove = getMove(moves[1])
         Pair(oppMove, playerMove)
     }
 
@@ -96,10 +109,10 @@ fun main(args: Array<String>) {
     // endregion
 
     // region Q2
-    val rounds2 = f.split('\n').map {line ->
+    val rounds2 = f.split('\n').map { line ->
         val moveOutcomePair = line.split(' ')
-        val oppMove = Move.values().first { it.oppMoveSymbol == moveOutcomePair[0] }
-        val outcome = Outcome.values().first {it.encoding == moveOutcomePair[1]}
+        val oppMove = getMove(moveOutcomePair[0])
+        val outcome = Outcome.values().first { it.encoding == moveOutcomePair[1] }
         getStrategisedMove(oppMove, outcome)
     }
 

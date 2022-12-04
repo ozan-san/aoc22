@@ -2,7 +2,7 @@ package q1
 
 import java.io.File
 
-fun main(args: Array<String>) {
+fun main() {
     val f = File("src/main/kotlin/q1/q1.txt").inputStream().bufferedReader().readText()
     val groupSums = f.split("\n\n").map { partition -> partition.split('\n').map { it.toInt() } }.map { it.sum() }
 
